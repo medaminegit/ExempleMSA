@@ -1,9 +1,15 @@
 package fr.amaris.ExempleMSA.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value= {"id","price"})
 public class Product {
 
 	private int id;
+	
 	private String name;
+	
 	private double price;
 	
 	public Product() {
