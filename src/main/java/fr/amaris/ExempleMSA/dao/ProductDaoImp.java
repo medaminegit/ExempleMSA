@@ -31,7 +31,7 @@ public class ProductDaoImp implements ProductDao {
 	}
 	
 	@Override
-	public Product addProduct(Product pr)
+	public  Product addProduct(Product pr)
 	{
 		produits.add(pr);
 		return pr;

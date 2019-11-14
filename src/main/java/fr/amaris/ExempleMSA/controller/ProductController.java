@@ -1,10 +1,13 @@
 package fr.amaris.ExempleMSA.controller;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriBuilder;
 
 import fr.amaris.ExempleMSA.dao.ProductDao;
 import fr.amaris.ExempleMSA.model.Product;
@@ -36,8 +41,16 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value ="/addproduit",method = RequestMethod.POST)
-	public void ajouterProduit(@RequestBody Product pr)
+	public ResponseEntity<Void>  ajouterProduit(@RequestBody Product pr)
 	{
-		productDao.addProduct(pr);
+		Product pr_add=productDao.addProduct(pr);
+		if(pr_add==null)
+			return ResponseEntity.noContent().build();
+		
+		URI location=ServletUriComponentsBuilder.
+				fromCurrentRequest().
+				path("/{index}").
+				buildAndExpand(pr_add.getId()).toUri();
+		return ResponseEntity.created(location).build();
 	}
 }
