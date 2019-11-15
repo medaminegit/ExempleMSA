@@ -8,7 +8,7 @@ public class SecondMsaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SecondMsaApplication.class, args);
-		System.out.println("abcd");
+		
 	}
 
 }
