@@ -30,20 +30,20 @@ public class ProductController {
 	
 	@RequestMapping(value = "/produits",method = RequestMethod.GET)
 	public List<Product>afficherTousProduits() {
-		return productDao.getAllProduct();
+		return productDao.findAll();
 	}
 
 	
 
 	@GetMapping(value = "/produit/{index}")
 	public Product afficheByIndex(@PathVariable int index) {
-		return productDao.getProductByIndex(index);
+		return productDao.findById(index);
 	}
 	
 	@RequestMapping(value ="/addproduit",method = RequestMethod.POST)
 	public ResponseEntity<Void>  ajouterProduit(@RequestBody Product pr)
 	{
-		Product pr_add=productDao.addProduct(pr);
+		Product pr_add=productDao.save(pr);
 		if(pr_add==null)
 			return ResponseEntity.noContent().build();
 		
@@ -52,5 +52,15 @@ public class ProductController {
 				path("/{index}").
 				buildAndExpand(pr_add.getId()).toUri();
 		return ResponseEntity.created(location).build();
+	}
+	@GetMapping(value="/produits/limit_prix/{price}")
+	public List<Product> getMaxpricethan(@PathVariable double price)
+	{
+		return productDao.findByPriceGreaterThan(price);
+	}
+	@GetMapping(value="/produits/search/{name}")
+	public List<Product> searchByName(@PathVariable String name)
+	{
+		return productDao.findbyname(name);
 	}
 }
