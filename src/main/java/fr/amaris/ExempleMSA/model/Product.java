@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -20,8 +22,10 @@ public class Product {
 
 	@Id
 	@GeneratedValue
+	@JsonIgnore
 	private int id;
 	
+	@Length(min = 4,max = 10,message = "la longueur de name est entre 4 et 10 caractére")
 	private String name;
 	
 	private double price;
